@@ -32,8 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run Python tests and driver scripts.
-      - name: Run scripts
+      # Run Python tests.
+      - name: Run test file
         run: |
           python src/test.py
-          python src/driver.py
