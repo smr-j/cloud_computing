@@ -2,17 +2,14 @@
 
 name: github_actions_practice
 
-run-name: ${{ github.actor }} is learning GitHub Actions
+run-name: ${{ github.actor }} is trying to run a truncated CI/CD workflow
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Triggers the workflow for any pushes made to any branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows for the workflow to run manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -26,13 +23,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      - name: Set up Python
+      - uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
+      # Run Python tests and driver scripts.
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          python src/test.py
+          python src/driver.py
